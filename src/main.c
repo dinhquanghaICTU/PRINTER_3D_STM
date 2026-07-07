@@ -1,7 +1,10 @@
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_rcc.h"
-#include "stdio.h"
+#include "uart.h"
+#include "led.h"
+
+#define BAUDRATE 115200 
 
 static void delay_ms(uint32_t ms)
 {
@@ -13,7 +16,9 @@ static void delay_ms(uint32_t ms)
 
 int main(void)
 {
-    printf("Hello, World!\n");
-
-    // while (1) {}
+    uart_debug_init(BAUDRATE); 
+    while (1) {
+        uart_debug_send_string("QUANGHA TEST UART_DEBUG\r\n");
+        delay_ms(1000);
+    }
 }

@@ -19,19 +19,24 @@ SRC_DIRS := \
 
 INC_DIRS := \
 	src \
+	hardware/inc \
 	Libraries/CMSIS/Include \
 	Libraries/CMSIS/Device/ST/STM32F10x/Include \
 	Libraries/STM32F10x_StdPeriph_Driver/inc
 
 INCLUDES := $(addprefix -I,$(INC_DIRS))
 
-C_SOURCES := $(filter-out src/startup_stm32f103c8.c,$(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)))
+DRIVER_SOURCES := \
+`thardware/src/uart.c \
+	hardware/src/led.c
+
+C_SOURCES := $(filter-out src/startup_stm32f103c8.c,$(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))) $(DRIVER_SOURCES)
 ASM_SOURCES := $(STARTUP_FILE)
 C_OBJECTS := $(addprefix $(OBJ_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 ASM_OBJECTS := $(addprefix $(OBJ_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 OBJECTS := $(C_OBJECTS) $(ASM_OBJECTS)
 
-vpath %.c $(SRC_DIRS)
+vpath %.c $(SRC_DIRS) hardware/src
 vpath %.s $(dir $(STARTUP_FILE))
 
 CFLAGS := \

@@ -10,6 +10,7 @@
             ],
             "includePath": [
                 "${workspaceFolder}/src",
+                "${workspaceFolder}/hardware/inc",
                 "${workspaceFolder}/Libraries/CMSIS/Include",
                 "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F10x/Include",
                 "${workspaceFolder}/Libraries/STM32F10x_StdPeriph_Driver/inc"

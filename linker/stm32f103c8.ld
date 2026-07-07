@@ -19,6 +19,36 @@ SECTIONS
   {
     *(.text*)
     *(.rodata*)
+    *(.glue_7)
+    *(.glue_7t)
+    KEEP(*(.init))
+    KEEP(*(.fini))
+  } > FLASH
+
+  . = ALIGN(4);
+  .preinit_array :
+  {
+    PROVIDE_HIDDEN(__preinit_array_start = .);
+    KEEP(*(.preinit_array*))
+    PROVIDE_HIDDEN(__preinit_array_end = .);
+  } > FLASH
+
+  . = ALIGN(4);
+  .init_array :
+  {
+    PROVIDE_HIDDEN(__init_array_start = .);
+    KEEP(*(SORT(.init_array.*)))
+    KEEP(*(.init_array*))
+    PROVIDE_HIDDEN(__init_array_end = .);
+  } > FLASH
+
+  . = ALIGN(4);
+  .fini_array :
+  {
+    PROVIDE_HIDDEN(__fini_array_start = .);
+    KEEP(*(SORT(.fini_array.*)))
+    KEEP(*(.fini_array*))
+    PROVIDE_HIDDEN(__fini_array_end = .);
   } > FLASH
 
   _sidata = LOADADDR(.data);
