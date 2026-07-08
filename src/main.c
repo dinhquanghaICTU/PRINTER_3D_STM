@@ -17,8 +17,11 @@ static void delay_ms(uint32_t ms)
 int main(void)
 {
     uart_debug_init(BAUDRATE); 
+    uart_esp32_init(BAUDRATE);
+    
     while (1) {
-        uart_debug_send_string("QUANGHA TEST UART_DEBUG\r\n");
+        // uart_debug_send_string("QUANGHA TEST UART_DEBUG\r\n");
+        uart_esp32_send_string("QUANGHA TEST UART_ESP32\r\n");
         delay_ms(1000);
     }
 }

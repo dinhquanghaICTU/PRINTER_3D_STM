@@ -9,4 +9,8 @@ void uart_debug_init(baudrate_t baudrate);
 void uart_debug_send_char(char c);
 void uart_debug_send_string(const char* str);
 
+void uart_esp32_init(baudrate_t baudrate);
+void uart_esp32_send_char(char c);
+void uart_esp32_send_string(const char* str);
+
 #endif // __UART_H__

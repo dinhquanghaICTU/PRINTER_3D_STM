@@ -27,7 +27,7 @@ INC_DIRS := \
 INCLUDES := $(addprefix -I,$(INC_DIRS))
 
 DRIVER_SOURCES := \
-`thardware/src/uart.c \
+	hardware/src/uart.c \
 	hardware/src/led.c
 
 C_SOURCES := $(filter-out src/startup_stm32f103c8.c,$(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))) $(DRIVER_SOURCES)
