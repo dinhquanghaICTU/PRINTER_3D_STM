@@ -13,4 +13,8 @@ void uart_esp32_init(baudrate_t baudrate);
 void uart_esp32_send_char(char c);
 void uart_esp32_send_string(const char* str);
 
+char uart_esp32_receive_char(void);
+uint8_t uart_esp32_available(void);
+void uart_esp32_receive_string(char *buffer, uint16_t max_len);
+
 #endif // __UART_H__

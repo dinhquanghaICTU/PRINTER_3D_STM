@@ -16,12 +16,19 @@ static void delay_ms(uint32_t ms)
 
 int main(void)
 {
+
+    char rx_buf[128];
     uart_debug_init(BAUDRATE); 
     uart_esp32_init(BAUDRATE);
     
+
+    uart_debug_send_string("STM32 UART test start\r\n");
     while (1) {
+        uart_esp32_receive_string(rx_buf, sizeof(rx_buf));
         // uart_debug_send_string("QUANGHA TEST UART_DEBUG\r\n");
-        uart_esp32_send_string("QUANGHA TEST UART_ESP32\r\n");
+        uart_debug_send_string("ESP32 -> STM32: ");
+        uart_debug_send_string(rx_buf);
+        uart_debug_send_string("\r\n");
         delay_ms(1000);
     }
 }

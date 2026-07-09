@@ -1,5 +1,5 @@
 #include "uart.h"
-
+#include <stdint.h>
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_usart.h"
 #include "stm32f10x_rcc.h"
@@ -95,6 +95,43 @@ void uart_esp32_send_string(const char* str)
     }
 }
 
+uint8_t uart_esp32_available(void)
+{
+    return USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == SET;
+}
+
+char uart_esp32_receive_char(void)
+{
+    while (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
+
+    return (char)USART_ReceiveData(USART2);
+}
+
+void uart_esp32_receive_string(char *buffer, uint16_t max_len)
+{
+    uint16_t i = 0;
+    char c;
+
+    if (buffer == 0 || max_len == 0) {
+        return;
+    }
+
+    while (i < (max_len - 1)) {
+        c = uart_esp32_receive_char();
+
+        if (c == '\n') {
+            break;
+        }
+
+        if (c == '\r') {
+            continue;
+        }
+
+        buffer[i++] = c;
+    }
+
+    buffer[i] = '\0';
+}
 
 
 
