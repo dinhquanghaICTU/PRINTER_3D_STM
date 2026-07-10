@@ -16,5 +16,6 @@ void uart_esp32_send_string(const char* str);
 char uart_esp32_receive_char(void);
 uint8_t uart_esp32_available(void);
 void uart_esp32_receive_string(char *buffer, uint16_t max_len);
+void uart_esp32_receive_bytes(uint8_t *buffer, uint16_t len);
 
 #endif // __UART_H__

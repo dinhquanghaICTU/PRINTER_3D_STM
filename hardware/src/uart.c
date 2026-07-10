@@ -133,7 +133,17 @@ void uart_esp32_receive_string(char *buffer, uint16_t max_len)
     buffer[i] = '\0';
 }
 
+void uart_esp32_receive_bytes(uint8_t *buffer, uint16_t len)
+{
+    if (buffer == 0) {
+        return;
+    }
 
+    for (uint16_t i = 0; i < len; i++) {
+        while (USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
+        buffer[i] = (uint8_t)(USART_ReceiveData(USART2) & 0xFF);
+    }
+}
 
 
 

@@ -10,11 +10,36 @@
             ],
             "includePath": [
                 "${workspaceFolder}/src",
+                "${workspaceFolder}/app/inc",
+                "${workspaceFolder}/bootloader/inc",
                 "${workspaceFolder}/hardware/inc",
+                "${workspaceFolder}/middle/inc",
                 "${workspaceFolder}/Libraries/CMSIS/Include",
                 "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F10x/Include",
-                "${workspaceFolder}/Libraries/STM32F10x_StdPeriph_Driver/inc"
+                "${workspaceFolder}/Libraries/STM32F10x_StdPeriph_Driver/inc",
+                "${workspaceFolder}/third_party/FreeRTOS-Kernel/include",
+                "${workspaceFolder}/third_party/FreeRTOS-Kernel/portable/GCC/ARM_CM3"
             ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/app/inc",
+                    "${workspaceFolder}/app/src",
+                    "${workspaceFolder}/bootloader/inc",
+                    "${workspaceFolder}/bootloader/src",
+                    "${workspaceFolder}/hardware/inc",
+                    "${workspaceFolder}/hardware/src",
+                    "${workspaceFolder}/middle/inc",
+                    "${workspaceFolder}/middle/src",
+                    "${workspaceFolder}/Libraries/CMSIS/Include",
+                    "${workspaceFolder}/Libraries/CMSIS/Device/ST/STM32F10x/Include",
+                    "${workspaceFolder}/Libraries/STM32F10x_StdPeriph_Driver/inc",
+                    "${workspaceFolder}/Libraries/STM32F10x_StdPeriph_Driver/src",
+                    "${workspaceFolder}/third_party/FreeRTOS-Kernel/include",
+                    "${workspaceFolder}/third_party/FreeRTOS-Kernel/portable/GCC/ARM_CM3"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
             "defines": [
                 "STM32F10X_MD",
                 "USE_STDPERIPH_DRIVER"
