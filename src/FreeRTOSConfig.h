@@ -5,6 +5,7 @@
 #include "stm32f10x.h"
 
 extern uint32_t SystemCoreClock;
+void vAssertCalled(const char *file, uint32_t line);
 
 #define configUSE_PREEMPTION                    1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION 0
@@ -60,9 +61,7 @@ extern uint32_t SystemCoreClock;
 #define configASSERT( x )                       \
     do {                                        \
         if( ( x ) == 0 ) {                      \
-            taskDISABLE_INTERRUPTS();           \
-            for( ;; ) {                         \
-            }                                   \
+            vAssertCalled(__FILE__, __LINE__);  \
         }                                       \
     } while( 0 )
 

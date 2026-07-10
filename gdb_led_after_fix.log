@@ -1,0 +1,35 @@
+Remote debugging using localhost:3333
+0x0800071c in ?? ()
+[stm32f1x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x0800071c msp: 0x20005000
+Hardware assisted breakpoint 1 at 0x8004234: file src/main.c, line 66.
+Continuing.
+
+Breakpoint 1, led_task (argument=0x0) at src/main.c:66
+66	    uart_debug_send_string("led task start\r\n");
+The history is empty.
+r0             0x0                 0
+r1             0xa5a5a5a5          -1515870811
+r2             0xa5a5a5a5          -1515870811
+r3             0xa5a5a5a5          -1515870811
+r4             0xa5a5a5a5          -1515870811
+r5             0xa5a5a5a5          -1515870811
+r6             0xa5a5a5a5          -1515870811
+r7             0xa5a5a5a5          -1515870811
+r8             0xa5a5a5a5          -1515870811
+r9             0xa5a5a5a5          -1515870811
+r10            0xa5a5a5a5          -1515870811
+r11            0xa5a5a5a5          -1515870811
+r12            0xa5a5a5a5          -1515870811
+sp             0x200003b0          0x200003b0 <ucHeap+516>
+lr             0x80058b9           134240441
+pc             0x8004234           0x8004234 <led_task>
+xPSR           0x1000000           16777216
+msp            0x20004fe0          0x20004fe0
+psp            0x200003b0          0x200003b0 <ucHeap+516>
+primask        0x0                 0
+basepri        0x0                 0
+faultmask      0x0                 0
+control        0x2                 2
+Detaching from program: C:\ha\tailieuhoctap\thuctap\PRINTER_3D_STM\build_app_a\PRINTER_3D_STM_app_a.elf, Remote target
+[Inferior 1 (Remote target) detached]

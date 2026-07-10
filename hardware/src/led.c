@@ -13,6 +13,8 @@ void led_init(void)
     gpio.GPIO_Mode = GPIO_Mode_Out_PP;
     gpio.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &gpio);
+
+    GPIO_SetBits(GPIOC, GPIO_Pin_13);
 }
 
 void led_on(void)
@@ -25,14 +27,5 @@ void led_off(void)
     GPIO_SetBits(GPIOC, GPIO_Pin_13);
 }
 
-void led_blink(uint32_t delay_ms)
-{
-    led_on();
-    for (volatile uint32_t i = 0; i < delay_ms * 8000u; i++) {
-    }
-    led_off();
-    for (volatile uint32_t i = 0; i < delay_ms * 8000u; i++) {
-    }
-}
 
 

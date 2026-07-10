@@ -15,6 +15,7 @@ CC := $(PREFIX)-gcc
 AS := $(PREFIX)-gcc
 OBJCOPY := $(PREFIX)-objcopy
 SIZE := $(PREFIX)-size
+ST_FLASH ?= st-flash
 
 BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
@@ -303,24 +304,24 @@ clean:
 flash: flash_app_a
 
 flash_legacy: $(BUILD_DIR)/$(PROJECT).bin
-	@st-flash write $(BUILD_DIR)/$(PROJECT).bin 0x08000000
+	@$(ST_FLASH) --reset write $(BUILD_DIR)/$(PROJECT).bin 0x08000000
 
 flash_bootloader: $(BOOTLOADER_BUILD_DIR)/$(BOOTLOADER_PROJECT).bin
-	@st-flash write $(BOOTLOADER_BUILD_DIR)/$(BOOTLOADER_PROJECT).bin $(BOOTLOADER_ADDR)
+	@$(ST_FLASH) --reset write $(BOOTLOADER_BUILD_DIR)/$(BOOTLOADER_PROJECT).bin $(BOOTLOADER_ADDR)
 
 flash_app_a: $(APP_A_BUILD_DIR)/$(PROJECT)_app_a.bin
-	@st-flash write $(APP_A_BUILD_DIR)/$(PROJECT)_app_a.bin $(APP_A_ADDR)
+	@$(ST_FLASH) --reset write $(APP_A_BUILD_DIR)/$(PROJECT)_app_a.bin $(APP_A_ADDR)
 
 flash_app_b: $(APP_B_BUILD_DIR)/$(PROJECT)_app_b.bin
-	@st-flash write $(APP_B_BUILD_DIR)/$(PROJECT)_app_b.bin $(APP_B_ADDR)
+	@$(ST_FLASH) --reset write $(APP_B_BUILD_DIR)/$(PROJECT)_app_b.bin $(APP_B_ADDR)
 
 flash_all: ota_images
-	@st-flash write $(BOOTLOADER_BUILD_DIR)/$(BOOTLOADER_PROJECT).bin $(BOOTLOADER_ADDR)
-	@st-flash write $(APP_A_BUILD_DIR)/$(PROJECT)_app_a.bin $(APP_A_ADDR)
-	@st-flash write $(APP_B_BUILD_DIR)/$(PROJECT)_app_b.bin $(APP_B_ADDR)
+	@$(ST_FLASH) write $(APP_A_BUILD_DIR)/$(PROJECT)_app_a.bin $(APP_A_ADDR)
+	@$(ST_FLASH) write $(APP_B_BUILD_DIR)/$(PROJECT)_app_b.bin $(APP_B_ADDR)
+	@$(ST_FLASH) --reset write $(BOOTLOADER_BUILD_DIR)/$(BOOTLOADER_PROJECT).bin $(BOOTLOADER_ADDR)
 
 erase:
-	@st-flash erase
+	@$(ST_FLASH) erase
 
 info:
 	@echo "Project: $(PROJECT)"

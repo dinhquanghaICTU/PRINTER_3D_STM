@@ -3,17 +3,40 @@
 #include "boot_uart.h"
 #include "stm32f10x.h"
 
-typedef void (*app_entry_t)(void);
-
 static const ota_metadata_t *metadata = (const ota_metadata_t *)OTA_METADATA_ADDR;
+
+__attribute__((naked, noreturn)) static void start_app(uint32_t app_stack, uint32_t app_reset_handler)
+{
+    (void)app_stack;
+    (void)app_reset_handler;
+
+    __asm volatile (
+        "msr msp, r0        \n"
+        "movs r2, #0        \n"
+        "msr control, r2    \n"
+        "isb                \n"
+        "cpsie i            \n"
+        "bx r1              \n"
+    );
+}
+
+static void bootloader_delay_ms(uint32_t ms)
+{
+    while (ms--) {
+        for (volatile uint32_t i = 0; i < 8000u; i++) {
+        }
+    }
+}
 
 static uint32_t slot_to_addr(boot_slot_t slot)
 {
     if (slot == BOOT_SLOT_A) {
+        boot_uart_send_string("select addr A\r\n");
         return APP_A_START_ADDR;
     }
 
     if (slot == BOOT_SLOT_B) {
+         boot_uart_send_string("select addr B\r\n");
         return APP_B_START_ADDR;
     }
 
@@ -40,21 +63,26 @@ static int app_is_valid(uint32_t app_addr, uint32_t app_size)
 
 static int slot_is_valid(boot_slot_t slot)
 {
+    
     if (slot == BOOT_SLOT_A) {
+        boot_uart_send_string("check 1\r\n");
         return app_is_valid(APP_A_START_ADDR, APP_A_SIZE);
     }
 
     if (slot == BOOT_SLOT_B) {
+        boot_uart_send_string("check 2\r\n");
         return app_is_valid(APP_B_START_ADDR, APP_B_SIZE);
     }
+    boot_uart_send_string("check 3\r\n");
 
     return 0;
 }
 
 static boot_slot_t get_default_slot(void)
 {   
-    boot_uart_send_string("da vao day first\r\n");
+    
     if (metadata->magic == OTA_METADATA_MAGIC) {
+        // boot_uart_send_string("da vao day first\r\n");
         if ((metadata->active_slot == BOOT_SLOT_A) || (metadata->active_slot == BOOT_SLOT_B)) {
             return (boot_slot_t)metadata->active_slot;
         }
@@ -88,9 +116,11 @@ static boot_slot_t get_pending_slot(void)
 
 static void jump_to_app(uint32_t app_addr)
 {
-    uint32_t stack_addr = *(volatile uint32_t *)app_addr;
-    uint32_t reset_addr = *(volatile uint32_t *)(app_addr + 4UL);
-    app_entry_t app_entry = (app_entry_t)reset_addr;
+    uint32_t app_stack = *(volatile uint32_t *)app_addr;
+    uint32_t app_reset_handler = *((volatile uint32_t *)(app_addr + 4UL));
+
+    boot_uart_send_string("Jumping to application...\r\n");
+    bootloader_delay_ms(100);
 
     __disable_irq();
 
@@ -99,11 +129,11 @@ static void jump_to_app(uint32_t app_addr)
     SysTick->VAL = 0;
 
     SCB->VTOR = app_addr;
-    __set_MSP(stack_addr);
 
-    __enable_irq();
+    __DSB();
+    __ISB();
 
-    app_entry();
+    start_app(app_stack, app_reset_handler);
 }
 
 void bootloader_run(void)

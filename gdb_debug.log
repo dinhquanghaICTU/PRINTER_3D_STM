@@ -1,0 +1,16 @@
+Remote debugging using localhost:3333
+0x08000718 in Reset_Handler ()
+[stm32f1x.cpu] halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x08000718 msp: 0x20005000
+Hardware assisted breakpoint 1 at 0x80001f0: file bootloader/src/bootloader.c, line 106.
+Hardware assisted breakpoint 2 at 0x80042fc
+Hardware assisted breakpoint 3 at 0x8004ad8
+Hardware assisted breakpoint 4 at 0x8005830
+Hardware assisted breakpoint 5 at 0x8004234
+Continuing.
+
+Breakpoint 1, jump_to_app (app_addr=134234112) at bootloader/src/bootloader.c:106
+106	    uint32_t app_stack = *(volatile uint32_t *)app_addr;
+$1 = 0x8004000
+Continuing.
+halted: PC: 0x080001f2
